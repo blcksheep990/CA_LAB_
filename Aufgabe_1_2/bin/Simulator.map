@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "Z:\home\flo\Computerarchitektur\CA3_Lab1\code\Aufgabe_1_2\bin\Simulator.abs"
+PROGRAM "C:\Users\Nutzer\Documents\CA_LAB\Aufgabe_1_2\bin\Simulator.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -25,13 +25,13 @@ Entry point: 0xC000 (Entry)
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
-.init                             90     R     0xC000     0xC059   ROM_C000
+.init                             99     R     0xC000     0xC062   ROM_C000
 .data                              2   R/W     0x1000     0x1001   RAM
 .stack                           256   R/W     0x1002     0x1101   RAM
 .vectSeg0_vect                     2     R     0xFFFE     0xFFFF   .vectSeg0
 
 Summary of section sizes per section type:
-READ_ONLY (R):          5C (dec:       92)
+READ_ONLY (R):          65 (dec:      101)
 READ_WRITE (R/W):      102 (dec:      258)
 
 *********************************************************************************************
@@ -49,8 +49,7 @@ MODULE:                 -- main.asm.o --
      Entry                                     C000       8       8       0   .init       
      main                                      C000       0       0       0   .init       
      reset                                     C008       A      10       0   .init       
-     loop                                      C012      16      22       0   .init       
-     lightOn                                   C028       3       3       1   .init       
+     loop                                      C012      19      25       0   .init       
 - VARIABLES:
      var1                                      1000       2       2       3   .data       
 - LABELS:
@@ -64,8 +63,9 @@ MODULE:                 -- delay.asm.o --
 MODULE:                 -- led.asm.o --
 - PROCEDURES:
      initLED                                   C041      13      19       1   .init       
-     setLED                                    C054       3       3       0   .init       
-     getLED                                    C057       3       3       0   .init       
+     setLED                                    C054       3       3       2   .init       
+     getLED                                    C057       3       3       1   .init       
+     toggleLED                                 C05A       9       9       1   .init       
 - VARIABLES:
 
 *********************************************************************************************
@@ -74,7 +74,7 @@ MODULE STATISTIC
 ---------------------------------------------------------------------------------------------
   main.asm.o                                   2     43      0
   delay.asm.o                                  0     22      0
-  led.asm.o                                    0     25      0
+  led.asm.o                                    0     34      0
   other                                      256      2      0
 
 *********************************************************************************************
@@ -83,8 +83,8 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 SECTION: ".data"
   var1 
 SECTION: ".init"
-  main Entry reset loop lightOn delay_0_5sec delay_loop delay_loop_2 initLED 
-  setLED getLED 
+  main Entry reset loop delay_0_5sec delay_loop delay_loop_2 initLED setLED 
+  getLED toggleLED 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
@@ -94,14 +94,14 @@ OBJECT LIST SORTED BY ADDRESS
      main                                      C000       0       0       0   .init       
      Entry                                     C000       8       8       0   .init       
      reset                                     C008       A      10       0   .init       
-     loop                                      C012      16      22       0   .init       
-     lightOn                                   C028       3       3       1   .init       
+     loop                                      C012      19      25       0   .init       
      delay_0_5sec                              C02B       7       7       1   .init       
      delay_loop                                C032       A      10       1   .init       
      delay_loop_2                              C03C       5       5       0   .init       
      initLED                                   C041      13      19       1   .init       
-     setLED                                    C054       3       3       0   .init       
-     getLED                                    C057       3       3       0   .init       
+     setLED                                    C054       3       3       2   .init       
+     getLED                                    C057       3       3       1   .init       
+     toggleLED                                 C05A       9       9       1   .init       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -116,8 +116,9 @@ OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 Entry                     USES __SEG_END_SSTACK initLED 
 reset                     USES var1 
-loop                      USES var1 lightOn delay_0_5sec 
+loop                      USES var1 setLED delay_0_5sec toggleLED 
 delay_0_5sec              USES delay_loop 
+toggleLED                 USES getLED setLED 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -137,5 +138,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 2
-Total size of all blocks to be downloaded: 92
+Total size of all blocks to be downloaded: 101
 

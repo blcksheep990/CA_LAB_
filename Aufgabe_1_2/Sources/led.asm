@@ -1,5 +1,5 @@
 ; export symbols
-        XDEF initLED, setLED, getLED;, toggleLED
+        XDEF initLED,setLED,getLED,toggleLED
         
 ; include derivative specific macros
         INCLUDE 'mc9s12dp256.inc'
@@ -7,8 +7,12 @@
 ; RAM: Variable data section
 .data: SECTION
 
-; ROM: Constant data
 .const: SECTION
+
+.vect: SECTION
+
+; ROM: Constant data
+
 
 ; ROM: Code section
 .init: SECTION
@@ -28,4 +32,8 @@ getLED:
         LDAB PORTB
         RTS                             ; Return from subroutine
 
-;toggleLED:
+toggleLED:
+        JSR  getLED
+        EORB #$FF
+        JSR  setLED
+        RTS

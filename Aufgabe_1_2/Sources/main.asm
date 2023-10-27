@@ -6,7 +6,7 @@
 
 ; import symbols
         XREF __SEG_END_SSTACK ; End of stack
-        XREF initLED, delay_0_5sec
+        XREF initLED, setLED, getLED, delay_0_5sec, toggleLED
 
 ; include derivative specific macros
         INCLUDE 'mc9s12dp256.inc'
@@ -40,13 +40,14 @@ loop:
         CPD #63
         BGT reset
         STD var1
-        JSR lightOn
+        JSR setLED
         JSR delay_0_5sec
+        JSR toggleLED
         BRA loop
 
-lightOn:
+;lightOn:
 ;LDD var1
 ;EORB #$FF
-        STAB PORTB
-        RTS
+;       STAB PORTB
+;        RTS
 
