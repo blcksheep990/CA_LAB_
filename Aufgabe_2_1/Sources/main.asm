@@ -1,22 +1,14 @@
-;   Labor 1 - Vorbereitungsaufgabe 2.4
+;   Labor 1 - Vorbereitungsaufgabe 2.1
 ;   Convert a zero-terminated ASCIIZ string to lower characters
-;   Main program
-;
-;   Computerarchitektur
-;   (C) 2019-2022 J. Friedrich, W. Zimmermann, R. Keller
-;   Hochschule Esslingen
-;
-;   Author:   R. Keller, Jul 4, 2019
-;            (based on code provided by J. Friedrich, W. Zimmermann)
-;   Modified: -
-;
+
+;# done by Florian
 
 ; export symbols
         XDEF Entry, main
 
 ; import symbols
         XREF __SEG_END_SSTACK           ; End of stack
-        XREF toLower                    ; Referenced from other object file
+        XREF toLower, strCpy            ; Referenced from other object file
 
 ; include derivative specific macros
         INCLUDE 'mc9s12dp256.inc'
@@ -38,10 +30,15 @@ main:                                   ; Begin of the program
 Entry:
         LDS  #__SEG_END_SSTACK          ; Initialize stack pointer
         CLI                             ; Enable interrupts, needed for debugger
+        
+        LDX #0                          ; Store Addresses of Ctext and Vtext to X and Y
+        LDY #0                          ;
+        LEAX Ctext, X                   ;
+        LEAY Vtext, Y                   ;
 
-;       ... ??? ...                     ; Add your code here
-;
-;  To Do
-;       Copy string from Ctext in ROM to Vtext in RAM
-;       Load pointer to string in D
-;       Call subroutine toLower
+        TFR Y, D                        ; Store Address of Vtext also to D
+
+        JSR strCpy                      ; execute strCpy
+        JSR toLower                     ; execute toLower
+Finish_loop:
+        BRA Finish_loop                 ; Wie Beendet man das Programm ????
