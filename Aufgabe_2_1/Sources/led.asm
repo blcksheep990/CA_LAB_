@@ -1,3 +1,4 @@
+;# done by Tim and Florian:
 ; export symbols
         XDEF initLED,setLED,getLED,toggleLED
         
@@ -23,17 +24,18 @@ initLED:
         MOVB #$FF, DDRB                 ; Set Ports B 0-7 (LED-Ports) as outputs
         MOVB #$FF, PORTB                ; Turn on every LED
         RTS                             ; Return from subroutine
-        
+
 setLED:
-        STAB PORTB                      
+        STAB PORTB                      ; Store B to PORTB
         RTS                             ; Return from subroutine
 
+;# done by Tim: 
 getLED:
-        LDAB PORTB
+        LDAB PORTB                      ; Load B from PORTB
         RTS                             ; Return from subroutine
 
 toggleLED:
-        JSR  getLED
-        EORB #$FF
-        JSR  setLED
-        RTS
+        JSR  getLED                     ; Run Subroutine getLED
+        EORB #$FF                       ; B =^ $FF
+        JSR  setLED                     ; Run Subroutine setLED
+        RTS                             ; Return form subroutine
