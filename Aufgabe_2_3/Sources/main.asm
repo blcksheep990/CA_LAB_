@@ -1,5 +1,5 @@
-;   Labor 1 - Vorbereitungsaufgabe 2.2
-;   convert a 16 bit hexadecimal value into a NUL-terminated ASCII-string
+;   Labor 1 - Vorbereitungsaufgabe 2.3
+;   convert a 16 bit signed decimal value into a NUL-terminated ASCII-string
 
 ;# done by Tim and Florian:
 
@@ -8,7 +8,7 @@
 
 ; import symbols
         XREF __SEG_END_SSTACK           ; End of stack
-        XREF hexToASCII                 ; Referenced from other object file
+        XREF decToASCII                 ; Referenced from other object file
 
 ; include derivative specific macros
         INCLUDE 'mc9s12dp256.inc'
@@ -39,8 +39,8 @@ Loop:
         ; safe start value to val and  val into register D 
         STY val
         LDD val
-        ; run hexToASCII
-        JSR hexToASCII
+        ; run decToASCII
+        JSR decToASCII
         ; Increment start value 
         INY
         ; Run loop with incremented value
