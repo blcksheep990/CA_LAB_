@@ -33,13 +33,17 @@ Entry:
 
         LDX #0                          ; Store Addresses of Ctext and Vtext to X and Y
         LEAX string, X                  ;
-
+        ; start value
         LDY #0
 Loop:
+        ; safe start value to val and  val into register D 
         STY val
         LDD val
+        ; run hexToASCII
         JSR hexToASCII
+        ; Increment start value 
         INY
+        ; Run loop with incremented value
         BRA Loop
 
 
