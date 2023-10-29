@@ -1,12 +1,8 @@
 ;
 ;   Labor 1 - Test program for LCD driver
-;
-;   Computerarchitektur
-;   (C) 2019-2022 J. Friedrich, W. Zimmermann, R. Keller
-;   Hochschule Esslingen
-;
-;   Author:   	   J.Friedrich, W. Zimmermann
-;   Last Modified: R. Keller, August 2022
+
+;# Done by Tim and Florian
+
 ; Export symbols
         XDEF Entry, main
 
