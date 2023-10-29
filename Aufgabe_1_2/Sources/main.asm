@@ -1,11 +1,13 @@
 ; Labor 1 - Aufgabe 1.2
 ; Incrementing a value once per second and binary output to LEDs
 
+;# done by Tim:
+
 ; export symbols
         XDEF Entry, main
 
 ; import symbols
-        XREF __SEG_END_SSTACK ; End of stack
+        XREF __SEG_END_SSTACK           ; End of stack
         XREF initLED, setLED, getLED, delay_0_5sec, toggleLED
 
 ; include derivative specific macros
@@ -13,7 +15,7 @@
 
 ; RAM: Variable data section
 .data: SECTION
-var1: DS.W 1 ; one 16 bit variable
+var1: DS.W 1                            ; one 16 bit variable
 
 ; ROM: Constant data
 .const: SECTION
@@ -21,7 +23,7 @@ var1: DS.W 1 ; one 16 bit variable
 ; ROM: Code section
 .init: SECTION
 
-main: ; Begin of the program
+main:                                   ; Begin of the program
 Entry:
         LDS #__SEG_END_SSTACK           ; Initialize stack pointer
         CLI                             ; Enable interrupts, needed for debugger
@@ -44,10 +46,3 @@ loop:
         JSR delay_0_5sec                ; Jump to subroutine delay_0_5sec
         JSR toggleLED                   ; Jump to subroutine toggleLED
         BRA loop                        ; Branch back to subroutine loop
-
-;lightOn:
-;LDD var1
-;EORB #$FF
-;       STAB PORTB
-;        RTS
-

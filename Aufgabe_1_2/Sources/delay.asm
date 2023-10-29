@@ -1,3 +1,5 @@
+;# done by Tim and Florian:
+; export symbols
         XDEF delay_0_5sec
 
 .data: SECTION

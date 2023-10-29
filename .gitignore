@@ -1,0 +1,6 @@
+*.tdt
+*.asm.o
+*.abs
+*.abs.phy
+*.abs.s19
+*.map
