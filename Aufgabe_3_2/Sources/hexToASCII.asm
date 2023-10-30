@@ -15,6 +15,11 @@ H2A: DC.B "0123456789ABCDEF"
 ; ROM: Code section
 .init: SECTION
 
+;**************************************************************
+; Public interface function: hexToASCII ... convert a hexadecimal value to ASCII 
+; Parameter: X ... pointer to output string
+;            D ... input hexadecimal value
+; Return:    -
 hexToASCII:
         ; Store adress of string and register Y into Stack for later re-use  
         PSHX            
