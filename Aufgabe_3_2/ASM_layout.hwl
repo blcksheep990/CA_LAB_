@@ -12,14 +12,17 @@ OPEN data 0 42 60 28
 Data < attributes SCOPE global,COMPLEMENT None,FORMAT Symb,MODE automatic,SORT NotSort,UPDATERATE 10,NAMEWIDTH 16
 OPEN command 0 70 60 30
 Command < attributes CACHESIZE 1000
-OPEN lcd 32 10 17 12
+OPEN lcd 32 10 13 12
 LCD < LCDPORT "0x32" "0x0"
 LCD < LINKADDR "0xfffff6" "0xfffff8" "0xfffffa" "0xfffffc" "0xfffffe"
-OPEN Io_led 49 32 8 8
+OPEN Io_led 49 32 8 10
 IO_Led< PORT 528
 IO_Led< DDR 530
 IO_Led < LINKADDR "0xfffff6" "0xfffff8" "0xfffffa" "0xfffffc" "0xfffffe"
+OPEN Push_buttons 39 51 15 9
+Push_Buttons < PBPORT "0x260"
+Push_Buttons < LINKADDR "0xfffff6" "0xfffff8" "0xfffffa" "0xfffffc" "0xfffffe"
 bckcolor 50331647
 font 'Courier New' 9 BLACK
 AUTOSIZE on
-ACTIVATE "Assembly" "Memory" "Register" "Data" "Procedure" "Source" "Command" "LCD" "IO_Led"
+ACTIVATE "Assembly" "Memory" "Register" "Data" "Procedure" "Source" "Command" "LCD" "IO_Led" "Push_Buttons"

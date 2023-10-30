@@ -40,6 +40,8 @@ Entry:
         JSR initLCD                     ; Initialize the LCD
         JSR initLED                     ; Execute Subroutine initLED
 
+        MOVB #$00, DDRH
+
         LDX #0
         STX i
 Loop:   
@@ -60,10 +62,16 @@ Loop:
         LDD i
         JSR setLED                      ; Jump to subroutine setLED
         BRSET PTH, #$01, butten0pressed
+        BRSET PTH, #$02, butten1pressed
+        BRSET PTH, #$04, butten2pressed
+        BRSET PTH, #$08, butten3pressed
+        ADDD #1
+        
+
         ;BRCLR
 
 GoOn:
-        STX i
+        STD i
 
         JSR delay_0_5sec
 
@@ -71,6 +79,18 @@ GoOn:
 
 butten0pressed:
         ADDD #16
+        BRA GoOn
+
+butten1pressed:
+        ADDD #10
+        BRA GoOn
+
+butten2pressed:
+        SUBD #16
+        BRA GoOn
+
+butten3pressed:
+        SUBD #10
         BRA GoOn
 
 
