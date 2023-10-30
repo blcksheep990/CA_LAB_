@@ -25,6 +25,7 @@ i:      DS.w 1
 
 ; ROM: Constant data
 .const: SECTION
+string: DC.B "0123456789ABCDEFG",0
 
 ; ROM: Code section
 .init:  SECTION
@@ -41,9 +42,13 @@ Entry:
         JSR initLED                     ; Execute Subroutine initLED
 
         MOVB #$00, DDRH
-
+        LDX #0                          ; Store Addresses of val into X
+        LEAX string, X  
+        LDAB #0
+        JSR writeLine
         LDX #0
         STX i
+
 Loop:   
         LDX #0                          ; Store Addresses of val into X
         LEAX dec_string, X              ;
@@ -61,14 +66,14 @@ Loop:
 
         LDD i
         JSR setLED                      ; Jump to subroutine setLED
-        BRSET PTH, #$01, butten0pressed
-        BRSET PTH, #$02, butten1pressed
-        BRSET PTH, #$04, butten2pressed
-        BRSET PTH, #$08, butten3pressed
+        BRCLR PTH, #$01, butten0pressed
+        BRCLR PTH, #$02, butten1pressed
+        BRCLR PTH, #$04, butten2pressed
+        BRCLR PTH, #$08, butten3pressed
         ADDD #1
         
 
-        ;BRCLR
+        ;BRSET
 
 GoOn:
         STD i
