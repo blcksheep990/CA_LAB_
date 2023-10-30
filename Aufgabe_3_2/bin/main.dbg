@@ -12863,14 +12863,18 @@ Loop:
 
         LDD i
         JSR setLED                      ; Jump to subroutine setLED
+        BRSET PTH, #$01, butten0pressed
+        ;BRCLR
 
-        LDX i
-        INX
+GoOn:
         STX i
 
         JSR delay_0_5sec
 
         BRA Loop
 
-back:   BRA back
+butten0pressed:
+        ADDD #16
+        BRA GoOn
+
 
