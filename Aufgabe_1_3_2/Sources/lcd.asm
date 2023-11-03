@@ -213,7 +213,7 @@ wDo:      jsr  outputByte
           jsr  sel_data   ; select data
 
 msg_out:                  ; output the message character by character
-          ldab #16        ; max. 16 characters
+          ldab #17        ; max. 16 characters
 next:     ldaa 0,x        ; get character
           cmpa #0
           beq spaces
