@@ -35,7 +35,7 @@
 ; Defines
 ONESEC      equ 100
 TENMS       equ 1875            ; 10 ms
-TIMER_ON    equ $70             ; tscr1 value to turn ECT on
+TIMER_ON    equ $80             ; tscr1 value to turn ECT on
 TIMER_CH4   equ $10             ; Bit position for channel 4
 TCTL1_CH4   equ $03             ; Mask corresponds to TCTL1 OM4, OL4
 
@@ -72,7 +72,7 @@ initTicker:
         ; driver frequency of 187500 Hz or 5.3333 us time interval
         ldab TSCR2
         andb #$f8
-        orab #8
+        orab #7
         stab TSCR2
         bclr TCTL1,#TCTL1_CH4   ; Switch timer on
         rts
