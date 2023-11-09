@@ -35,7 +35,8 @@ void decToASCII(void);
 
 void decToASCII_Wrapper(char *txt, int val)
 {   asm
-    {  	LDX txt
+    {  	
+        LDX txt
         LDD val
         JSR decToASCII
     }
@@ -47,19 +48,24 @@ void writeLine(void);
 
 void WriteLine_Wrapper(char *text, char line)
 {   asm
-    {	LDX  text
+    {	
+        LDX  text
         LDAB line
         JSR  writeLine
     }
 }
 
-// ****************************************************************************
+// Prototypes and wrapper functions for LEDs
+void initLED(void);
+void toggleLED(void);
 
-void initLED_C(void)
-{   DDRJ_DDRJ1  = 1;	  	// Port J.1 as output
-    PTIJ_PTIJ1  = 0;		
-    DDRB        = 0xFF;		// Port B as output
-    PORTB       = 0x55;
+void toggleLED_Wrapper(unsigned char ledmask)
+{
+    asm
+    {
+        LDAB ledmask
+        JSR toggleLED
+    }
 }
 
 
@@ -72,9 +78,9 @@ unsigned char clockEvent = 0;
 void main(void) 
 {   EnableInterrupts;                           // Global interrupt enable
 
-    initLED_C();                    		// Initialize the LEDs
+    initLED();                             		// Initialize the LEDs
 
-    initLCD();                    		// Initialize the LCD
+    initLCD();                    	        	// Initialize the LCD
     WriteLine_Wrapper("Clock Template", 0);
     WriteLine_Wrapper("(C) HE Prof. Z", 1);    
 
@@ -82,9 +88,10 @@ void main(void)
 
     for(;;)                                     // Endless loop
     {   if (clockEvent)
-    	{   clockEvent = 0;
+    	{
+            clockEvent = 0;
     
-// ??? Add your code here ???
+            toggleLED_Wrapper(1);
     
     	}
     }

@@ -28,6 +28,7 @@
         XDEF initTicker
 
 ; Import symbols
+        XREF clockEvent
 
 ; Include derivative specific macros
         INCLUDE 'mc9s12dp256.inc'
@@ -95,13 +96,6 @@ isrECT4:
             
         clr  ticks              ; If yes, execute user's code
         
-        ; --- Add user code here: Add whatever you want to do every second ---
-
-        ldab PORTB              ; In this example we let blink the LED on port B.0
-        comb
-        andb #1
-        stab PORTB
-
-        ; --- End of user code -----------------------------------------------
+        inc clockEvent          ; set clockEvent to True
 
 notYet: rti
