@@ -9,6 +9,7 @@
 
 #include <hidef.h>                              // Common defines
 #include <mc9s12dp256.h>                        // CPU specific defines
+#include "clock.c"
 
 #pragma LINK_INFO DERIVATIVE "mc9s12dp256b"
 
@@ -29,45 +30,8 @@
 //       For non-void functions a C wrapper function is required.
 void initTicker(void);
 
-
-// Prototypes and wrapper functions for dec2ASCII (from lab 1)
-void decToASCII(void);
-
-void decToASCII_Wrapper(char *txt, int val)
-{   asm
-    {  	
-        LDX txt
-        LDD val
-        JSR decToASCII
-    }
-}
-
 // Prototypes and wrapper functions for LCD driver (from lab 1)
 void initLCD(void);
-void writeLine(void);
-
-void WriteLine_Wrapper(char *text, char line)
-{   asm
-    {	
-        LDX  text
-        LDAB line
-        JSR  writeLine
-    }
-}
-
-// Prototypes and wrapper functions for LEDs
-void initLED(void);
-void toggleLED(void);
-
-void toggleLED_Wrapper(unsigned char ledmask)
-{
-    asm
-    {
-        LDAB ledmask
-        JSR toggleLED
-    }
-}
-
 
 // ****************************************************************************
 // Global variables
@@ -78,21 +42,15 @@ unsigned char clockEvent = 0;
 void main(void) 
 {   EnableInterrupts;                           // Global interrupt enable
 
-    initLED();                             		// Initialize the LEDs
-
     initLCD();                    	        	// Initialize the LCD
-    WriteLine_Wrapper("Clock Template", 0);
-    WriteLine_Wrapper("(C) HE Prof. Z", 1);    
-
+    initClock();
     initTicker();                               // Initialize the time ticker
 
     for(;;)                                     // Endless loop
-    {   if (clockEvent)
-    	{
+    {   
+        if (clockEvent){
             clockEvent = 0;
-    
-            toggleLED_Wrapper(1);
-    
+            tickClock();
     	}
     }
 }
