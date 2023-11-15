@@ -1,4 +1,5 @@
 #include <hidef.h>                              // Common defines
+#include "wrappers.h"
 
 // Global variables
 struct time_t{
@@ -10,61 +11,21 @@ struct time_t{
 enum clockMode_t {NORMAL, SET};
 enum clockMode_t clockMode = NORMAL;
 
-// Prototypes and wrapper functions for LEDs
-void toggleLED(void);
-
-void toggleLED_Wrapper(unsigned char ledmask)
-{
-    asm
-    {
-        LDAB ledmask
-        JSR toggleLED
-    }
-}
-
-// Prototypes and wrapper functions for decToASCII
-
-void decToASCII(void);
-
-void decToASCII_Wrapper(char * pOutString, unsigned short value){
-    asm{
-        LDX pOutString
-        LDD value
-        JSR decToASCII
-    }
-}
-
-// Prototypes and wrapper functions for writeLine
-void writeLine(void);
-
-void writeLine_Wrapper(char *text, char line)
-{   asm
-    {	
-        LDX  text
-        LDAB line
-        JSR  writeLine
-    }
-}
-
-// Prototypes of LED
-void initLED(void);
-
 // clock help functions
 
-void timeToString(char * outputTimeString){
+void timeToString(){
     char temp[7];
     decToASCII_Wrapper(temp, time.hour);
-    outputTimeString[0] = temp[4];
-    outputTimeString[1] = temp[5];
-    outputTimeString[2] = ':';
+    outputString[0] = temp[4];
+    outputString[1] = temp[5];
+    outputString[2] = ':';
     decToASCII_Wrapper(temp, time.minute);
-    outputTimeString[3] = temp[4];
-    outputTimeString[4] = temp[5];
-    outputTimeString[5] = ':';
+    outputString[3] = temp[4];
+    outputString[4] = temp[5];
+    outputString[5] = ':';
     decToASCII_Wrapper(temp, time.second);
-    outputTimeString[6] = temp[4];
-    outputTimeString[7] = temp[5];
-    outputTimeString[8] = 0;
+    outputString[6] = temp[4];
+    outputString[7] = temp[5];
 }
 
 void increaseHour(){
@@ -112,8 +73,6 @@ void initClock(){
 }
 
 void tickClock(){
-    char timeString[9];
-
     if(PTH & 0x04) toggleClockMode();
     if (clockMode == NORMAL){
         increaseSecond();
@@ -124,6 +83,5 @@ void tickClock(){
         if(PTH & 0x20) increaseSecond();
     }
 
-    timeToString(timeString);
-    writeLine_Wrapper(timeString, 1);
+    timeToString();
 }

@@ -10,6 +10,7 @@
 #include <hidef.h>                              // Common defines
 #include <mc9s12dp256.h>                        // CPU specific defines
 #include "clock.c"
+#include "thermometer.c"
 
 #pragma LINK_INFO DERIVATIVE "mc9s12dp256b"
 
@@ -36,7 +37,7 @@ void initLCD(void);
 // ****************************************************************************
 // Global variables
 unsigned char clockEvent = 0;
-
+unsigned char count = 19;
 
 // ****************************************************************************
 void main(void) 
@@ -44,6 +45,7 @@ void main(void)
 
     initLCD();                    	        	// Initialize the LCD
     initClock();
+    initThermo();
     initTicker();                               // Initialize the time ticker
 
     for(;;)                                     // Endless loop
@@ -51,6 +53,19 @@ void main(void)
         if (clockEvent){
             clockEvent = 0;
             tickClock();
+            updateThermo();
+
+            if (count == 19){
+                writeLine_Wrapper("F.Fink T.Mencin ", 0);
+                count = 0;
+            } else {
+                count++;
+            }
+            if (count == 10){
+                writeLine_Wrapper("\xA9 IT WS2023/2024", 0);
+            }
+
+            writeLine_Wrapper(outputString, 1);
     	}
     }
 }
