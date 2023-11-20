@@ -22,7 +22,7 @@ initLED:
         BSET DDRJ, #2                   ; Set Port J.1 as output
         BCLR PTJ, #2                    ; Clear J.1 -> activate LEDs
         MOVB #$FF, DDRB                 ; Set Ports B 0-7 (LED-Ports) as outputs
-        MOVB #$FF, PORTB                ; Turn on every LED
+        MOVB #$00, PORTB                ; Turn on every LED
         RTS                             ; Return from subroutine
 
 setLED:
