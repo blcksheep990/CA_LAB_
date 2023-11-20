@@ -62,7 +62,7 @@ void main(void)
                 count++;
             }
             if (count == 10){
-                writeLine_Wrapper("\xA9 IT WS2023/2024", 0);
+                writeLine_Wrapper("C IT WS2023/2024", 0);
             }
 
             writeLine_Wrapper(outputString, 1);
