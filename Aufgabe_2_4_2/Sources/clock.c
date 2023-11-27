@@ -14,8 +14,17 @@ enum clockMode_t {NORMAL, SET};
 enum clockMode_t clockMode = NORMAL;
 enum am_or_pm_t {AM, PM} am_or_pm;
 
-// clock help functions
 
+// Public interface function: timeToString
+// Description: Converts the current time into a formatted string for display.
+//             The resulting string represents the hour, minute, and second, and
+//             optionally includes an AM/PM indicator if SELECT12HOURS is defined.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: Unchanged (when function returns)
 void timeToString(){
     char temp[7];
     decToASCII_Wrapper(temp, time.hour);
@@ -39,6 +48,17 @@ void timeToString(){
     #endif
 }
 
+// Public interface function: toggle_AM_PM
+// Description: Toggles between AM and PM in a time representation.
+//              If the current time representation is AM, it will be changed to PM,
+//              and vice versa.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: am_or_pm register modified
+
 void toggle_AM_PM(){
     if(am_or_pm == AM){
 	am_or_pm = PM;
@@ -46,6 +66,17 @@ void toggle_AM_PM(){
 	am_or_pm = AM;
     }
 }
+
+// Public interface function: increaseHour
+// Description: Increases the hour value of the current time.
+//              If SELECT12HOURS is defined, it also handles the toggle
+//              between AM and PM when reaching 12 o'clock.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: time register modified
 
 void increaseHour(){
     #ifdef SELECT12HOURS
@@ -66,6 +97,16 @@ void increaseHour(){
     #endif
 }
 
+// Public interface function: increaseMinute
+// Description: Increases the minute value of the current time.
+//              If the minute reaches 59, it resets to 0 and increments the hour.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: time register modified
+
 void increaseMinute(){
     if(time.minute == 59){
         time.minute = 0;
@@ -75,6 +116,16 @@ void increaseMinute(){
     }
 }
 
+// Public interface function: increaseSecond
+// Description: Increases the second value of the current time.
+//              If the second reaches 59, it resets to 0 and increments the minute.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: time register modified
+
 void increaseSecond(){
     if(time.second == 59){
         time.second = 0;
@@ -83,6 +134,18 @@ void increaseSecond(){
         time.second++;
     }
 }
+
+// Public interface function: toggleClockMode
+// Description: Toggles between NORMAL and SET clock modes.
+//              If the current clock mode is NORMAL, it switches to SET mode,
+//              and vice versa. Additionally, it toggles an LED using the
+//              toggleLED_Wrapper function.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: clockMode register modified
 
 void toggleClockMode(void){
     if (clockMode == NORMAL){
@@ -95,6 +158,18 @@ void toggleClockMode(void){
 
 // clock core functions
 
+
+// Public interface function: initClock
+// Description: Initializes the clock with default values.
+//              Sets the initial time to 11:59:30 PM and initializes
+//              an LED using the initLED function.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: time and am_or_pm registers modified
+
 void initClock(){
     time.hour = 11;
     time.minute = 59;
@@ -102,6 +177,19 @@ void initClock(){
     am_or_pm = PM;
     initLED();
 }
+
+// Public interface function: tickClock
+// Description: Updates the clock based on button inputs and clock mode.
+//              Toggles the clock mode if the first button is pressed.
+//              In NORMAL mode, it increases the second, toggles an LED, 
+//              and updates the time string.
+//              In SET mode, it checks button inputs to adjust the hour, minute, and second.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: clockMode register modified, time register modified
 
 void tickClock(){
     if(~PTH & 0x01) toggleClockMode();
