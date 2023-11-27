@@ -40,6 +40,19 @@ unsigned char clockEvent = 0;
 unsigned char count = 19;
 
 // ****************************************************************************
+
+// Public interface function: main
+// Description: Main function controlling the program flow.
+//              Initializes LCD, clock, thermosensor, and time ticker.
+//              Enters an endless loop where it updates the clock and thermosensor,
+//              displays information on the LCD, and handles periodic events.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: Various registers may be modified based on function calls
+
 void main(void) 
 {   EnableInterrupts;                           // Global interrupt enable
 

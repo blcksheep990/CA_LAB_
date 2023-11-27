@@ -1,11 +1,33 @@
 #include <hidef.h>                              // Common defines
 #include "wrappers.h"
 
+// Public interface function: initThermo
+// Description: Initializes the thermal sensor (analog-to-digital converter).
+//              Configures the necessary control registers for the ATD module.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: ATD0CTL2, ATD0CTL3, ATD0CTL4 registers modified
+
 void initThermo(){
     ATD0CTL2 = 0xC0;
     ATD0CTL3 = 0x80;
     ATD0CTL4 = 0x05;
 }
+
+// Public interface function: updateThermo
+// Description: Updates the temperature reading from the thermal sensor.
+//              Converts the temperature to ASCII characters and updates
+//              the outputString with the temperature in degrees Celsius.
+
+// Parameters: None
+
+// Return: None
+
+// Registers: ATD0CTL5, ATD0STAT0, ATD0DR0, temperature register modified
+//            temp array register modified, outputString register modified
 
 void updateThermo(){
     char temperature;
