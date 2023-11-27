@@ -1,0 +1,62 @@
+<mxfile host="app.diagrams.net" modified="2023-11-27T22:07:36.220Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" etag="vwUFFT3X1llu3Wd1wrCg" version="22.1.4" type="device">
+  <diagram name="Page-1" id="nMwopR3PWUHDk6i8-2b6">
+    <mxGraphModel dx="819" dy="462" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="A61jdAnsFOeJqoYzrztl-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A61jdAnsFOeJqoYzrztl-2" target="A61jdAnsFOeJqoYzrztl-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-2" value="updateThermo()" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="320" y="80" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-3" value="&lt;div&gt;&lt;b&gt;Rechtsbündig und ohne Vorzeichen mit Kanal 7&lt;/b&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ATD0CTL5 = 0x87;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="230" y="150" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A61jdAnsFOeJqoYzrztl-5" target="A61jdAnsFOeJqoYzrztl-7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="240" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="520" y="290" />
+              <mxPoint x="520" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-10" value="ja" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="A61jdAnsFOeJqoYzrztl-6">
+          <mxGeometry x="-0.8253" y="1" relative="1" as="geometry">
+            <mxPoint x="-3" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A61jdAnsFOeJqoYzrztl-5" target="A61jdAnsFOeJqoYzrztl-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-13" value="nein" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="A61jdAnsFOeJqoYzrztl-12">
+          <mxGeometry x="0.0745" y="-1" relative="1" as="geometry">
+            <mxPoint x="19" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-5" value="&lt;div&gt;&lt;b&gt;Umwandlung läuft noch?&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;ATD0STAT0 &amp;amp; 0x80 == 0&lt;br&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="260" y="250" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A61jdAnsFOeJqoYzrztl-7" target="A61jdAnsFOeJqoYzrztl-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-7" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="210" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.65;entryY=0.4;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="A61jdAnsFOeJqoYzrztl-3" target="A61jdAnsFOeJqoYzrztl-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A61jdAnsFOeJqoYzrztl-11" target="A61jdAnsFOeJqoYzrztl-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-11" value="&lt;div&gt;&lt;b&gt;Berechne Temperatur&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="290" y="360" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="A61jdAnsFOeJqoYzrztl-15" value="&lt;b&gt;Umwandlung der Temperatur in ASCII-Zeichen&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="230" y="420" width="280" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
