@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" modified="2023-11-27T21:47:35.544Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" etag="zhyJYawjAZW5Y4msErPJ" version="22.1.4" type="device">
+  <diagram name="Page-1" id="MtaxG93dTi5LgpIQzQUT">
+    <mxGraphModel dx="819" dy="462" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="KPjTej0IAh-lZE8WgxZx-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KPjTej0IAh-lZE8WgxZx-1" target="KPjTej0IAh-lZE8WgxZx-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KPjTej0IAh-lZE8WgxZx-1" value="initThermo()" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="290" y="70" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KPjTej0IAh-lZE8WgxZx-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KPjTej0IAh-lZE8WgxZx-2" target="KPjTej0IAh-lZE8WgxZx-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KPjTej0IAh-lZE8WgxZx-2" value="&lt;b&gt;Aktiveren des ATD-Moduls und automatisches zurücksetzen des CCF-Flags&lt;/b&gt;&lt;br&gt;&lt;div&gt;ATD0CTL2 = 0xC0;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="210" y="140" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="KPjTej0IAh-lZE8WgxZx-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KPjTej0IAh-lZE8WgxZx-4" target="KPjTej0IAh-lZE8WgxZx-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KPjTej0IAh-lZE8WgxZx-4" value="&lt;b&gt;Nur eine Messung&lt;/b&gt;&lt;br&gt;&lt;div&gt;ATD0CTL3 = 0x08;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="260" y="220" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KPjTej0IAh-lZE8WgxZx-7" value="&lt;b&gt;10 bit, 2 MHz&lt;/b&gt;&lt;br&gt;&lt;div&gt;ATD0CTL4 = 0x05;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="260" y="290" width="160" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
