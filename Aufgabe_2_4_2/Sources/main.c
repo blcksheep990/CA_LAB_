@@ -53,6 +53,7 @@ unsigned char count = 19;
 
 // Registers: Various registers may be modified based on function calls
 
+// Erledigt von: Florian Fink und Tim Mencin
 void main(void) 
 {   EnableInterrupts;                           // Global interrupt enable
 
