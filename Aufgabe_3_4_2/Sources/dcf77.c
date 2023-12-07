@@ -8,8 +8,8 @@
 */
 
 /*
-; A C H T U N G:  D I E S E  S O F T W A R E  I S T  U N V O L L S T Ä N D I G
-; Dieses Modul enthält nur Funktionsrahmen, die von Ihnen ausprogrammiert werden
+; A C H T U N G:  D I E S E  S O F T W A R E  I S T  U N V O L L S T ï¿½ N D I G
+; Dieses Modul enthï¿½lt nur Funktionsrahmen, die von Ihnen ausprogrammiert werden
 ; sollen.
 */
 
@@ -25,6 +25,12 @@
 
 // Global variable holding the last DCF77 event
 DCF77EVENT dcf77Event = NODCF77EVENT;
+
+// Global variable holding the last DCF77 signal
+char currentSignal = 1;
+
+// Global variable holding the time of the last negative edge
+int lastNegEdgeTime = -1000;
 
 // Modul internal global variables
 static int  dcf77Year=2017, dcf77Month=1, dcf77Day=1, dcf77Hour=0, dcf77Minute=0;       //dcf77 Date and time as integer values
@@ -82,12 +88,26 @@ void displayDateDcf77(void)
 //  Parameter:  Current CPU time base in milliseconds
 //  Returns:    DCF77 event, i.e. second pulse, 0 or 1 data bit or minute marker
 DCF77EVENT sampleSignalDCF77(int currentTime)
-{   DCF77EVENT event = NODCF77EVENT;
+{
+    char temp[10] = {0};
+    int T_Pulse, T_Low;
+    char lastSignal = currentSignal;
+    currentSignal = readPortSim();
+    if (currentSignal < lastSignal){ // negative edge
+        T_Pulse = currentTime - lastNegEdgeTime;
+        lastNegEdgeTime = currentTime;
+        if (900 <= T_Pulse && T_Pulse <= 1100) return VALIDSECOND;
+        if (1900 <= T_Pulse && T_Pulse <= 2100) return VALIDMINUTE;
+        return INVALID;
+    }
+    if (currentSignal > lastSignal){ // positive edge
+        T_Low = currentTime - lastNegEdgeTime;
+        if (70 <= T_Low && T_Low <= 130) return VALIDZERO;
+        if (170 <= T_Low && T_Low <= 230) return VALIDONE;
+        return INVALID;
+    }
 
-// --- Add your code here ----------------------------------------------------
-// --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? ---
-
-    return event;
+    return NODCF77EVENT; // no change
 }
 
 // ****************************************************************************
