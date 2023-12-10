@@ -91,6 +91,8 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
     int T_Pulse, T_Low;
     char lastSignal = currentSignal;
     currentSignal = readPortSim();
+    if (currentSignal) setLED(0x02);
+    else clrLED(0x02); 
     if (currentSignal < lastSignal){ // negative edge
         T_Pulse = currentTime - lastNegEdgeTime;
         lastNegEdgeTime = currentTime;
@@ -153,6 +155,8 @@ void processEventsDCF77(DCF77EVENT event)
                 decoderState = WAITFORNEGEDGE;
             } else {
                 decoderState = DATAINVALID;
+                clrLED(0x04);
+                setLED(0x08); 
             }
             break;
         case WAITFORNEGEDGE:
@@ -161,12 +165,20 @@ void processEventsDCF77(DCF77EVENT event)
             } else if (event == VALIDMINUTE && bitCount == 59){
                 if (processDataBits()){
                     decoderState = DATAINVALID;
+                    clrLED(0x04);
+                    setLED(0x08); 
                 } else {
                     decoderState = WAITFORPOSEDGE;
+                    setLED(0x04);
+                    clrLED(0x08); 
+                                       
                 }
             } else {
                 decoderState = DATAINVALID;
+                clrLED(0x04);
+                setLED(0x08); 
             }
+            break;
     }
 }
 
