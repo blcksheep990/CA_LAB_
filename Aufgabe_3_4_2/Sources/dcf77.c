@@ -7,13 +7,6 @@
     Modified: -
 */
 
-/*
-; A C H T U N G:  D I E S E  S O F T W A R E  I S T  U N V O L L S T � N D I G
-; Dieses Modul enth�lt nur Funktionsrahmen, die von Ihnen ausprogrammiert werden
-; sollen.
-*/
-
-
 #include <hidef.h>                                      // Common defines
 #include <mc9s12dp256.h>                                // CPU specific defines
 #include <stdio.h>
@@ -29,8 +22,13 @@ DCF77EVENT dcf77Event = NODCF77EVENT;
 // Global variable holding the last DCF77 signal
 char currentSignal = 1;
 
-// Global variable holding the time of the last negative edge
+// Global variable holding the time until the last negative edge
 int lastNegEdgeTime = -1000;
+
+// Global variable holding the 59 databits transmitted each minute
+char dataBits[59];
+char bitCount = 0;
+enum {DATAINVALID, WAITFORPOSEDGE, WAITFORNEGEDGE} decoderState = DATAINVALID;
 
 // Modul internal global variables
 static int  dcf77Year=2017, dcf77Month=1, dcf77Day=1, dcf77Hour=0, dcf77Minute=0;       //dcf77 Date and time as integer values
@@ -110,6 +108,26 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
     return NODCF77EVENT; // no change
 }
 
+char processDataBits(){
+    if (!dataBits[20]) return 1;
+    if ((dataBits[21] + dataBits[22] + dataBits[23] + dataBits[24] + dataBits[25] + dataBits[26] + dataBits[27] + dataBits[28]) % 2) return 1;
+    if ((dataBits[29] + dataBits[30] + dataBits[31] + dataBits[32] + dataBits[33] + dataBits[34] + dataBits[35]) % 2) return 1;
+    if ((dataBits[36] + dataBits[37] + dataBits[38] + dataBits[39] + dataBits[40] + dataBits[41] + dataBits[42] + dataBits[43] + \
+         dataBits[44] + dataBits[45] + dataBits[46] + dataBits[47] + dataBits[48] + dataBits[49] + dataBits[50] + dataBits[51] + \
+         dataBits[52] + dataBits[53] + dataBits[54] + dataBits[55] + dataBits[56] + dataBits[57] + dataBits[58]) % 2) return 1;
+    dcf77Minute = dataBits[21] + 2 * dataBits[22] + 4 * dataBits[23] + 8 * dataBits[24] + 10 * dataBits[25] + 20 * dataBits[26] + 40 * dataBits[27];
+    if (dcf77Minute > 59) return 1;
+    dcf77Hour = dataBits[29] + 2 * dataBits[30] + 4 * dataBits[31] + 8 * dataBits[32] + 10 * dataBits[33] + 20 * dataBits[34];
+    if (dcf77Hour > 23) return 1;
+    setClock((char) dcf77Hour, (char) dcf77Minute, 0);
+    dcf77Day = dataBits[36] + 2 * dataBits[37] + 4 * dataBits[38] + 8 * dataBits[39] + 10 * dataBits[40] + 20 * dataBits[41];
+    if (dcf77Day > 31 || dcf77Day == 0) return 1;
+    dcf77Month = dataBits[45] + 2 * dataBits[46] + 4 * dataBits[47] + 8 * dataBits[48] + 10 * dataBits[49];
+    if (dcf77Month > 12 || dcf77Month == 0) return 1;
+    dcf77Year = 2000 + dataBits[50] + 2 * dataBits[51] + 4 * dataBits[52] + 8 * dataBits[53] + 10 * dataBits[54] + 20 * dataBits[55] + 40 * dataBits[56] + 80 * dataBits[57];
+    return 0;
+}
+
 // ****************************************************************************
 // Process the DCF77 events
 // Contains the DCF77 state machine
@@ -117,8 +135,38 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
 // Returns:     -
 void processEventsDCF77(DCF77EVENT event)
 {
-// --- Add your code here ----------------------------------------------------
-// --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? ---
-
+    switch(decoderState){
+        case DATAINVALID:
+            if(event == VALIDMINUTE){
+                bitCount = 0;
+                decoderState = WAITFORPOSEDGE;
+            }
+            break;
+        case WAITFORPOSEDGE:
+            if (event == VALIDONE){
+                dataBits[bitCount] = 1;
+                bitCount ++;
+                decoderState = WAITFORNEGEDGE;
+            } else if (event == VALIDZERO){
+                dataBits[bitCount] = 0;
+                bitCount ++;
+                decoderState = WAITFORNEGEDGE;
+            } else {
+                decoderState = DATAINVALID;
+            }
+            break;
+        case WAITFORNEGEDGE:
+            if (event == VALIDSECOND && bitCount < 59){
+                decoderState = WAITFORPOSEDGE;
+            } else if (event == VALIDMINUTE && bitCount == 59){
+                if (processDataBits()){
+                    decoderState = DATAINVALID;
+                } else {
+                    decoderState = WAITFORPOSEDGE;
+                }
+            } else {
+                decoderState = DATAINVALID;
+            }
+    }
 }
 
