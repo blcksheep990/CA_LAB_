@@ -14,6 +14,13 @@ typedef enum { NODCF77EVENT, VALIDZERO, VALIDONE, VALIDSECOND, VALIDMINUTE, INVA
 // Global variable holding the last DCF77 event
 extern DCF77EVENT dcf77Event;
 
+// Global variable holding time Zone "DE" = 0 and "US" = 1
+extern char timeZone;
+
+// Modul internal global variables
+static int  dcf77Year=2017, dcf77Month=1, dcf77Day=1, dcf77Hour=0, dcf77Minute=0, dcf77WeekDay=1;       //dcf77 Date and time as integer values
+
+
 // Public functions, for details see dcf77.c
 void initDCF77(void);
 void displayDateDcf77(void);
