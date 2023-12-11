@@ -168,6 +168,7 @@ void processEventsDCF77(DCF77EVENT event)
                     clrLED(0x04);
                     setLED(0x08); 
                 } else {
+                    bitCount = 0;
                     decoderState = WAITFORPOSEDGE;
                     setLED(0x04);
                     clrLED(0x08); 
