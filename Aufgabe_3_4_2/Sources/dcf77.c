@@ -30,13 +30,10 @@ char dataBits[59];
 char bitCount = 0;
 enum {DATAINVALID, WAITFORPOSEDGE, WAITFORNEGEDGE} decoderState = DATAINVALID;
 
-// Modul internal global variables
-static int  dcf77Year=2017, dcf77Month=1, dcf77Day=1, dcf77Hour=0, dcf77Minute=0;       //dcf77 Date and time as integer values
-
 // Prototypes of functions simulation DCF77 signals, when testing without
 // a DCF77 radio signal receiver
-void initializePortSim(void);                   // Use instead of initializePort() for testing
-char readPortSim(void);                         // Use instead of readPort() for testing
+//void initializePortSim(void);                   // Use instead of initializePort() for testing
+//char readPortSim(void);                         // Use instead of readPort() for testing
 
 // ****************************************************************************
 // Initalize the hardware port on which the DCF77 signal is connected as input
@@ -44,8 +41,7 @@ char readPortSim(void);                         // Use instead of readPort() for
 // Returns:     -
 void initializePort(void)
 {
-// --- Add your code here ----------------------------------------------------
-// --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? ---
+    DDRH = 0;
 }
 
 // ****************************************************************************
@@ -54,9 +50,8 @@ void initializePort(void)
 // Returns:     0 if signal is Low, >0 if signal is High
 char readPort(void)
 {
-// --- Add your code here ----------------------------------------------------
-// --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? ---
-    return -1;
+    
+    return PTH & 0x01;
 }
 
 // ****************************************************************************
@@ -75,8 +70,32 @@ void initDCF77(void)
 // Returns:     -
 void displayDateDcf77(void)
 {   char datum[32];
+    char weekday[4];
+    switch(dcf77WeekDay) {
+      case 1:
+        sprintf(weekday, "%s", "Mon");
+        break;
+      case 2:
+        sprintf(weekday, "%s", "Tue");
+        break;
+      case 3:
+        sprintf(weekday, "%s", "Wed");
+        break;
+      case 4:
+        sprintf(weekday, "%s", "Thu");
+        break;
+      case 5:
+        sprintf(weekday, "%s", "Fri");
+        break;
+      case 6:
+        sprintf(weekday, "%s", "Sat");
+        break;
+      case 7:
+        sprintf(weekday, "%s", "Sun");
+        break;
+    }
 
-    (void) sprintf(datum, "%02d.%02d.%04d", dcf77Day, dcf77Month, dcf77Year);
+    (void) sprintf(datum, "%s %02d.%02d.%04d", weekday, dcf77Day, dcf77Month, dcf77Year);
     writeLine(datum, 1);
 }
 
@@ -90,7 +109,7 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
     char temp[10] = {0};
     int T_Pulse, T_Low;
     char lastSignal = currentSignal;
-    currentSignal = readPortSim();
+    currentSignal = readPort();
     if (currentSignal) setLED(0x02);
     else clrLED(0x02); 
     if (currentSignal < lastSignal){ // negative edge
@@ -106,6 +125,7 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
         if (170 <= T_Low && T_Low <= 230) return VALIDONE;
         return INVALID;
     }
+    if (currentTime - lastNegEdgeTime > 2100) return INVALID;
 
     return NODCF77EVENT; // no change
 }
@@ -124,6 +144,7 @@ char processDataBits(){
     setClock((char) dcf77Hour, (char) dcf77Minute, 0);
     dcf77Day = dataBits[36] + 2 * dataBits[37] + 4 * dataBits[38] + 8 * dataBits[39] + 10 * dataBits[40] + 20 * dataBits[41];
     if (dcf77Day > 31 || dcf77Day == 0) return 1;
+    dcf77WeekDay = dataBits[42] + 2 * dataBits[43] + 4 * dataBits[44];
     dcf77Month = dataBits[45] + 2 * dataBits[46] + 4 * dataBits[47] + 8 * dataBits[48] + 10 * dataBits[49];
     if (dcf77Month > 12 || dcf77Month == 0) return 1;
     dcf77Year = 2000 + dataBits[50] + 2 * dataBits[51] + 4 * dataBits[52] + 8 * dataBits[53] + 10 * dataBits[54] + 20 * dataBits[55] + 40 * dataBits[56] + 80 * dataBits[57];
@@ -155,8 +176,8 @@ void processEventsDCF77(DCF77EVENT event)
                 decoderState = WAITFORNEGEDGE;
             } else {
                 decoderState = DATAINVALID;
-                clrLED(0x04);
-                setLED(0x08); 
+                setLED(0x04);
+                clrLED(0x08); 
             }
             break;
         case WAITFORNEGEDGE:
@@ -165,19 +186,19 @@ void processEventsDCF77(DCF77EVENT event)
             } else if (event == VALIDMINUTE && bitCount == 59){
                 if (processDataBits()){
                     decoderState = DATAINVALID;
-                    clrLED(0x04);
-                    setLED(0x08); 
+                    setLED(0x04);
+                    clrLED(0x08); 
                 } else {
                     bitCount = 0;
                     decoderState = WAITFORPOSEDGE;
-                    setLED(0x04);
-                    clrLED(0x08); 
+                    clrLED(0x04);
+                    setLED(0x08); 
                                        
                 }
             } else {
                 decoderState = DATAINVALID;
-                clrLED(0x04);
-                setLED(0x08); 
+                setLED(0x04);
+                clrLED(0x08); 
             }
             break;
     }
