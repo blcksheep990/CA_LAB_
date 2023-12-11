@@ -28,9 +28,18 @@ void main(void)
     initClock();                                // Initialize Clock module
     initDCF77();                                // Initialize DCF77 module
     initTicker();                               // Initialize the time ticker
+    DDRH &= 0x08;
 
     for(;;)                                     // Endless loop
-    {   if (clockEvent != NOCLOCKEVENT)         // Process clock event
+    { 
+        if (~PTH & 0x08){
+            if (timeZone){
+              timeZone = 0;
+            } else {
+              timeZone = 1;
+            }
+        }
+        if (clockEvent != NOCLOCKEVENT)         // Process clock event
         {   processEventsClock(clockEvent);
 
             displayTimeClock();
