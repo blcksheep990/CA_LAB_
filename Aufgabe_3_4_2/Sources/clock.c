@@ -21,8 +21,9 @@
 // Global variable holding the last clock event
 CLOCKEVENT clockEvent = NOCLOCKEVENT;
 
+char timeZone = 0;
+
 // Modul internal global variables
-static char hrs = 0, mins = 0, secs = 0;
 static int uptime = 0;
 static int ticks = 0;
 
@@ -91,7 +92,11 @@ void setClock(char hours, char minutes, char seconds)
 // Returns:     -
 void displayTimeClock(void)
 {   char uhrzeit[32] = "00:00:00";
-    (void) sprintf(uhrzeit, "%02d:%02d:%02d", hrs, mins, secs );
+    char timeZoneHrs;
+    if (hrs < 6) timeZoneHrs = hrs + 18 * timeZone;
+    else timeZoneHrs = hrs - 6 * timeZone;
+    // Date and Weekday should be implementad when time zone changes but where discussed with the lab supervisor instead. We understood the logic behind it.
+    (void) sprintf(uhrzeit, "%02d:%02d:%02d %s", timeZoneHrs, mins, secs , timeZone ? "US" : "DE");
     writeLine(uhrzeit, 0);
 }
 
