@@ -13,6 +13,8 @@ typedef enum { NOCLOCKEVENT, SECONDTICK } CLOCKEVENT;
 // Global variable holding the last clock event
 extern CLOCKEVENT clockEvent;
 
+static char hrs = 0, mins = 0, secs = 0;
+
 // Public functions, for details see clock.c
 void initClock(void);
 void processEventsClock(CLOCKEVENT event);
