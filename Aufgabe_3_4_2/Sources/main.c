@@ -37,7 +37,7 @@
 // Registers:
 // Various registers may be modified based on function calls.
 
-//Florian Fink Tim Mencin
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Florian Fink Tim Mencin
 void main(void)
 {   EnableInterrupts;                           // Allow interrupts
 
