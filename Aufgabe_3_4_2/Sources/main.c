@@ -20,6 +20,24 @@
 #pragma LINK_INFO DERIVATIVE "mc9s12dp256b"
 
 // ****************************************************************************
+// Public interface function: main
+// 
+// Description:
+// Initializes various modules and enters an endless loop to handle events and update displays.
+// Monitors a button on port H to toggle the timeZone variable.
+// Processes clock events and updates the clock display.
+// Processes DCF77 events and updates the date display.
+// 
+// Parameters:
+// None
+// 
+// Return:
+// None
+// 
+// Registers:
+// Various registers may be modified based on function calls.
+
+//Florian Fink Tim Mencin
 void main(void)
 {   EnableInterrupts;                           // Allow interrupts
 
